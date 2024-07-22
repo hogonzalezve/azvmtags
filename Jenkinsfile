@@ -35,11 +35,6 @@ pipeline {
         stage('deploy') {
             steps {
                 script {
-                        sh '''
-                            az login --service-principal -u 9e8b8c0e-0f92-4325-b421-2028bf37b447 -p $AZURE_CLIENT_SECRET -t 9dbc76ea-fb25-4b07-8f07-5dc315999b76
-                            az account set -s aE~8Q~O8K_Vl_bhrS2YoAPGzILK7r3Bd51E52dc3
-                        '''
-
                         def vmList = params.VM_LIST.split(',')
                         updateVMTags(vmList, params.START_TAG_KEY, params.START_TAG_VALUE, params.STOP_TAG_KEY, params.STOP_TAG_VALUE)
                         if (params.REMOVE_TAG_KEY) {
@@ -50,7 +45,7 @@ pipeline {
             }
         }
     }
-}
+
 
 /**
  * Function to update VM tags
