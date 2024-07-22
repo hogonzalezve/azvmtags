@@ -61,7 +61,7 @@ pipeline {
  * @param stopTagValue The value for the stop tag
  */
 def updateVMTags(vmList, startTagKey, startTagValue, stopTagKey, stopTagValue) {
-    def resourceGroup = 'rpa-rg-prod'
+    def resourceGroup = 'rg_occidente_temp'
 
     vmList.each { vmName ->
         sh """
@@ -77,7 +77,7 @@ def updateVMTags(vmList, startTagKey, startTagValue, stopTagKey, stopTagValue) {
  * @param tagKey The key for the tag to remove
  */
 def removeVMTag(vmList, tagKey) {
-    def resourceGroup = 'rpa-rg-prod'
+    def resourceGroup = 'rg_occidente_temp'
 
     vmList.each { vmName ->
         sh """
