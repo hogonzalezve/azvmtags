@@ -43,7 +43,7 @@ pipeline {
                     
                         def vmList = params.VM_LIST.split(',')
                         updateVMTags(vmList, params.VM_GROUP_START_TAG_KEY, params.VM_GROUP_START_TAG_VALUE, params.VM_GROUP_STOP_TAG_KEY, params.VM_GROUP_STOP_TAG_VALUE)
-                        if (params.REMOVE_VM_GROUP_TAG_KEY_START, params.REMOVE_VM_GROUP_TAG_KEY_STOP) {
+                        if (params.REMOVE_VM_GROUP_TAG_KEY_START || params.REMOVE_VM_GROUP_TAG_KEY_STOP) {
                             removeVMTag(vmList, params.REMOVE_VM_GROUP_TAG_KEY_START, params.REMOVE_VM_GROUP_TAG_KEY_STOP)
                         }
                     }
