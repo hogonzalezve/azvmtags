@@ -36,8 +36,8 @@ pipeline {
             steps {
                 script {
                         sh '''
-                            sudo apt-get update
-                            sudo apt-get install -y python3 python3-pip
+                            apt-get update
+                            apt-get install -y python3
                             curl -L https://aka.ms/InstallAzureCli | bash
                             az login --service-principal -u 9e8b8c0e-0f92-4325-b421-2028bf37b447 -p aE~8Q~O8K_Vl_bhrS2YoAPGzILK7r3Bd51E52dc3 -t 9dbc76ea-fb25-4b07-8f07-5dc315999b76
                             az account set -s 0bea0a37-89cb-43fb-976f-0d8a3d8b1e4b
