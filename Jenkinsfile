@@ -15,7 +15,7 @@ import groovy.transform.Field
 
 pipeline {
     agent {
-        label 'jenkins-slave-azcli'
+        label 'principal'
     }
 
     options {
