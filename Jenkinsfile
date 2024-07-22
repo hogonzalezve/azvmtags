@@ -42,7 +42,9 @@ pipeline {
                         '''
                     
                         def vmList = params.VM_LIST.split(',')
-                        updateVMTags(vmList, params.VM_GROUP_START_TAG_KEY, params.VM_GROUP_START_TAG_VALUE, params.VM_GROUP_STOP_TAG_KEY, params.VM_GROUP_STOP_TAG_VALUE)
+                        if (params.VM_GROUP_START_TAG_KEY && params.VM_GROUP_START_TAG_VALUE && params.VM_GROUP_STOP_TAG_KEY && params.VM_GROUP_STOP_TAG_VALUE) {
+                            updateVMTags(vmList, params.VM_GROUP_START_TAG_KEY, params.VM_GROUP_START_TAG_VALUE, params.VM_GROUP_STOP_TAG_KEY, params.VM_GROUP_STOP_TAG_VALUE)
+                        }
                         if (params.REMOVE_VM_GROUP_TAG_KEY_START || params.REMOVE_VM_GROUP_TAG_KEY_STOP) {
                             removeVMTag(vmList, params.REMOVE_VM_GROUP_TAG_KEY_START, params.REMOVE_VM_GROUP_TAG_KEY_STOP)
                         }
@@ -82,9 +84,15 @@ def removeVMTag(vmList, deleteStartTagKey, deleteStopTagKey) {
     def resourceGroup = 'rg_occidente_temp'
 
     vmList.each { vmName ->
-        sh """
-            az vm update --resource-group ${resourceGroup} --name ${vmName} --remove tags.${deleteStartTagKey}
-            az vm update --resource-group ${resourceGroup} --name ${vmName} --remove tags.${deleteStopTagKey}
-        """
+        if (deleteStartTagKey) {
+            sh """
+                az vm update --resource-group ${resourceGroup} --name ${vmName} --remove tags.${deleteStartTagKey}
+            """
+        }
+        if (deleteStopTagKey) {
+            sh """
+                az vm update --resource-group ${resourceGroup} --name ${vmName} --remove tags.${deleteStopTagKey}
+            """
+        }
     }
 }
