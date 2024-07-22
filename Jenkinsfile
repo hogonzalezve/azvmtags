@@ -23,12 +23,13 @@ pipeline {
     }
 
     parameters {
-        string(name: 'VM_LIST', defaultValue: 'vm1,vm2,vm3', description: 'Comma-separated list of VM names')
-        string(name: 'START_TAG_KEY', defaultValue: 'grupo1start', description: 'Key for the start tag')
-        string(name: 'START_TAG_VALUE', defaultValue: 'start', description: 'Value for the start tag')
-        string(name: 'STOP_TAG_KEY', defaultValue: 'grupo1stop', description: 'Key for the stop tag')
-        string(name: 'STOP_TAG_VALUE', defaultValue: 'stop', description: 'Value for the stop tag')
-        string(name: 'REMOVE_TAG_KEY', defaultValue: '', description: 'Key for the tag to remove')
+        string(name: 'VM_LIST', defaultValue: 'vm1,vm2', description: 'Comma-separated list of VM names')
+        string(name: 'VM_GROUP_START_TAG_KEY', defaultValue: 'grupo1start', description: 'Key for the start group tag')
+        string(name: 'VM_GROUP_START_TAG_VALUE', defaultValue: 'start', description: 'Value for the start group tag')
+        string(name: 'VM_GROUP_STOP_TAG_KEY', defaultValue: 'grupo1stop', description: 'Key for the stop group tag')
+        string(name: 'VM_GROUP_STOP_TAG_VALUE', defaultValue: 'stop', description: 'Value for the stop group tag')
+        string(name: 'REMOVE_VM_GROUP_TAG_KEY_START', defaultValue: '', description: 'Key for the start tag group to remove')
+        string(name: 'REMOVE_VM_GROUP_TAG_KEY_STOP', defaultValue: '', description: 'Key for the stop tag group to remove')
     }
 
     stages {
@@ -74,14 +75,16 @@ def updateVMTags(vmList, startTagKey, startTagValue, stopTagKey, stopTagValue) {
 /**
  * Function to remove a specific VM tag
  * @param vmList The list of VM names
- * @param tagKey The key for the tag to remove
+ * @param deleteStartTagKey The key for the start tag to remove
+ * @param deleteStopTagKey The key for the stop tag to remove
  */
-def removeVMTag(vmList, tagKey) {
+def removeVMTag(vmList, deleteStartTagKey, deleteStopTagKey) {
     def resourceGroup = 'rg_occidente_temp'
 
     vmList.each { vmName ->
         sh """
-            az vm update --resource-group ${resourceGroup} --name ${vmName} --remove tags.${tagKey}
+            az vm update --resource-group ${resourceGroup} --name ${vmName} --remove tags.${deleteStartTagKey}
+            az vm update --resource-group ${resourceGroup} --name ${vmName} --remove tags.${deleteStopTagKey}
         """
     }
 }
