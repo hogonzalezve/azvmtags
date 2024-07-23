@@ -23,13 +23,11 @@ pipeline {
     }
 
     parameters {
-        string(name: 'VM_LIST', defaultValue: 'vm1,vm2', description: 'Comma-separated list of VM names')
-        string(name: 'VM_GROUP_START_TAG_KEY', defaultValue: 'grupo1start', description: 'Key for the start group tag')
-        string(name: 'VM_GROUP_START_TAG_VALUE', defaultValue: 'start', description: 'Value for the start group tag')
-        string(name: 'VM_GROUP_STOP_TAG_KEY', defaultValue: 'grupo1stop', description: 'Key for the stop group tag')
-        string(name: 'VM_GROUP_STOP_TAG_VALUE', defaultValue: 'stop', description: 'Value for the stop group tag')
-        string(name: 'REMOVE_VM_GROUP_TAG_KEY_START', defaultValue: '', description: 'Key for the start tag group to remove')
-        string(name: 'REMOVE_VM_GROUP_TAG_KEY_STOP', defaultValue: '', description: 'Key for the stop tag group to remove')
+        string(name: 'VM_LIST', defaultValue: '', description: 'Comma-separated list of VM names. Ref: vm1,vm2,vm3')
+        string(name: 'VM_GROUP_START_TAG_KEYVM_GROUP_START_TAG_KEY', defaultValue: '', description: 'Key for the start group tag. Ref: grupo1start, grupo2start ')
+        string(name: 'VM_GROUP_STOP_TAG_KEY', defaultValue: '', description: 'Key for the stop group tag. Ref: grupo1stop, grupo2stop')
+        string(name: 'REMOVE_VM_GROUP_TAG_KEY_START', defaultValue: '', description: 'Key for the start tag group to remove. Ref: grupo1start, grupo2start')
+        string(name: 'REMOVE_VM_GROUP_TAG_KEY_STOP', defaultValue: '', description: 'Key for the stop tag group to remove. Ref: grupo1stop, grupo2stop')
     }
 
     stages {
@@ -42,8 +40,11 @@ pipeline {
                         '''
                     
                         def vmList = params.VM_LIST.split(',')
-                        if (params.VM_GROUP_START_TAG_KEY && params.VM_GROUP_START_TAG_VALUE && params.VM_GROUP_STOP_TAG_KEY && params.VM_GROUP_STOP_TAG_VALUE) {
-                            updateVMTags(vmList, params.VM_GROUP_START_TAG_KEY, params.VM_GROUP_START_TAG_VALUE, params.VM_GROUP_STOP_TAG_KEY, params.VM_GROUP_STOP_TAG_VALUE)
+                        def startTagValue = 'start'
+                        def stopTagValue = 'stop'
+                    
+                        if (params.VM_GROUP_START_TAG_KEY && params.VM_GROUP_STOP_TAG_KEY) {
+                            updateVMTags(vmList, params.VM_GROUP_START_TAG_KEY, startTagValue, params.VM_GROUP_STOP_TAG_KEY, stopTagValue)
                         }
                         if (params.REMOVE_VM_GROUP_TAG_KEY_START || params.REMOVE_VM_GROUP_TAG_KEY_STOP) {
                             removeVMTag(vmList, params.REMOVE_VM_GROUP_TAG_KEY_START, params.REMOVE_VM_GROUP_TAG_KEY_STOP)
