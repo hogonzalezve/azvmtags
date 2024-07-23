@@ -26,8 +26,8 @@ pipeline {
         string(name: 'VM_LIST', defaultValue: '', description: 'Comma-separated list of VM names. Ref: vm1,vm2,vm3')
         string(name: 'ADD_VM_GROUP_START_TAG_KEY', defaultValue: '', description: 'Key for the start group tag. Ref: grupo1start, grupo2start ')
         string(name: 'ADD_VM_GROUP_STOP_TAG_KEY', defaultValue: '', description: 'Key for the stop group tag. Ref: grupo1stop, grupo2stop')
-        string(name: 'REMOVE_VM_GROUP_TAG_KEY_START', defaultValue: '', description: 'Key for the start tag group to remove. Ref: grupo1start, grupo2start')
-        string(name: 'REMOVE_VM_GROUP_TAG_KEY_STOP', defaultValue: '', description: 'Key for the stop tag group to remove. Ref: grupo1stop, grupo2stop')
+        string(name: 'REMOVE_VM_GROUP_START_TAG_KEY', defaultValue: '', description: 'Key for the start tag group to remove. Ref: grupo1start, grupo2start')
+        string(name: 'REMOVE_VM_GROUP_STOP_TAG_KEY', defaultValue: '', description: 'Key for the stop tag group to remove. Ref: grupo1stop, grupo2stop')
     }
 
     stages {
@@ -46,8 +46,8 @@ pipeline {
                         if (params.ADD_VM_GROUP_START_TAG_KEY && params.ADD_VM_GROUP_STOP_TAG_KEY) {
                             updateVMTags(vmList, params.ADD_VM_GROUP_START_TAG_KEY, startTagValue, params.ADD_VM_GROUP_STOP_TAG_KEY, stopTagValue)
                         }
-                        if (params.REMOVE_VM_GROUP_TAG_KEY_START || params.REMOVE_VM_GROUP_TAG_KEY_STOP) {
-                            removeVMTag(vmList, params.REMOVE_VM_GROUP_TAG_KEY_START, params.REMOVE_VM_GROUP_TAG_KEY_STOP)
+                        if (params.REMOVE_VM_GROUP_START_TAG_KEY || params.REMOVE_VM_GROUP_STOP_TAG_KEY) {
+                            removeVMTag(vmList, params.REMOVE_VM_GROUP_START_TAG_KEY, params.REMOVE_VM_GROUP_STOP_TAG_KEY)
                         }
                     }
                 }
